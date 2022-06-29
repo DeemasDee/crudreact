@@ -15,5 +15,5 @@ server.use(
 
 server.use(router);
 server.listen(port, () => {
-    console.log('Server ready massszehhh on ${port}');
+    console.log(`Server ready massszehhh on ${port}`);
 })
