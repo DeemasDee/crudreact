@@ -24,6 +24,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+ note : last step, before compile on your server, you must be add `cors` package. So,
+ 
+ ### `npm i cors`
 
 Thus project was on link :
 ### https://test3112.herokuapp.com/
