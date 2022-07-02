@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, {useState, useEffect} from 'react';
 import {Table, Container, Row, Col,
   Button, ButtonGroup, Form, Nav, Navbar} from 'react-bootstrap';
@@ -6,7 +7,7 @@ import {toast,ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-const api = 'http://localhost:5000/users';
+//const api = 'http://localhost:5000/users';
 
 const initialState = {
   nama:"",
@@ -29,7 +30,10 @@ function App() {
 
   //function load user
   const loadUsers = async () =>{
-    const response = await axios.get(api);
+    const devEnv = process.env.NODE_ENV !== "production";
+    const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    const response = await axios.get(
+      `${devEnv?REACT_APP_DEV_URL : REACT_APP_PROD_URL}`);
     setData(response.data);
   };
 
@@ -42,7 +46,9 @@ function App() {
   //function delete user
   const handleDelete = async (id) =>{
     if(window.confirm("Ciuss di Hapus?")){
-      axios.delete(`${api}/${id}`);
+      const devEnv = process.env.NODE_ENV !== "production";
+       const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+      axios.delete(`${devEnv?REACT_APP_DEV_URL : REACT_APP_PROD_URL}/${id}`);
       toast.success("User berhasil dihapus");
       setTimeout(() =>loadUsers(), 400) ;
     }
@@ -63,12 +69,17 @@ function App() {
       toast.error("Mohon isi dengan lengkap")
     }else{
       if(!editMode){
-        axios.post(api, state);
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+        axios.post(`${devEnv?REACT_APP_DEV_URL : REACT_APP_PROD_URL}`, state);
         toast.success("Input berhasil");
         setState({nama:"", alamat:"", email:"", telpon:""});
         setTimeout(() =>loadUsers(), 400);
       } else{
-        axios.put(`${api}/${userId}`, state);
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+        axios.put(`${devEnv?REACT_APP_DEV_URL : REACT_APP_PROD_URL}
+                /${userId}`, state);
         toast.success("Update berhasil");
         setState({nama:"", alamat:"", email:"", telpon:""});
         setTimeout(() =>loadUsers(), 400);
